@@ -9,25 +9,21 @@ import feign.codec.ErrorDecoder;
 
 public class CustomErrorDecoder implements ErrorDecoder {
     private final ErrorDecoder defaultErrorDecoder = new Default();
+
     @Override
     public Exception decode(String methodKey, Response response) {
         FeignException exception = feign.FeignException.errorStatus(methodKey, response);
-        switch(response.status()) {
-            case 400:
-                return new BadRequestException();
-            case 404:
-                return new NotFoundException();
-            case 500:
-            case 503:
-                return new RetryableException(
-                        response.status(),
-                        exception.getMessage(),
-                        response.request().httpMethod(),
-                        exception,
-                        50L, // The retry interval
-                        response.request());
-            default:
-                return defaultErrorDecoder.decode(methodKey,response);
-        }
+        return switch (response.status()) {
+            case 400 -> new BadRequestException();
+            case 404 -> new NotFoundException();
+            case 500, 503 -> new RetryableException(
+                    response.status(),
+                    exception.getMessage(),
+                    response.request().httpMethod(),
+                    exception,
+                    50L, // The retry interval
+                    response.request());
+            default -> defaultErrorDecoder.decode(methodKey, response);
+        };
     }
 }

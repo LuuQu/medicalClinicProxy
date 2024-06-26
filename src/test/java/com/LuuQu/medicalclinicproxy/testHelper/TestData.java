@@ -19,11 +19,13 @@ public class TestData {
             }
             return list;
         }
+
         public static AppointmentDto get(Long id) {
             AppointmentDto appointmentDto = get();
             appointmentDto.setId(id);
             return appointmentDto;
         }
+
         public static AppointmentDto get() {
             AppointmentDto appointmentDto = new AppointmentDto();
             appointmentDto.setStartDate(LocalDateTime.now().plusDays(1).withMinute(0).withSecond(0).withNano(0));
@@ -31,6 +33,7 @@ public class TestData {
             return appointmentDto;
         }
     }
+
     public static class AppointmentSimpleDtoFactory {
 
         public static List<AppointmentSimpleDto> getList(int amount) {
@@ -85,6 +88,7 @@ public class TestData {
             specializationRequestDto.setDoctorId(id);
             return specializationRequestDto;
         }
+
         public static SpecializationRequestDto get() {
             SpecializationRequestDto specializationRequestDto = new SpecializationRequestDto();
             specializationRequestDto.setSpecialization("specialization");

@@ -35,6 +35,6 @@ public class AppointmentService {
     }
 
     public AppointmentSimpleDto addPatientToAppointment(Long patientId, Long appointmentId) {
-        return appointmentMapper.toSimpleDto(appointmentClient.addPatientToAppointment(patientId,appointmentId));
+        return appointmentMapper.toSimpleDto(appointmentClient.addPatientToAppointment(patientId, appointmentId));
     }
 }
