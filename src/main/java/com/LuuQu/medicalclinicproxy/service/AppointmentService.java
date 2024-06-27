@@ -4,10 +4,10 @@ import com.LuuQu.medicalclinicproxy.client.AppointmentClient;
 import com.LuuQu.medicalclinicproxy.mapper.AppointmentMapper;
 import com.LuuQu.medicalclinicproxy.model.AppointmentDateDto;
 import com.LuuQu.medicalclinicproxy.model.AppointmentSimpleDto;
-import com.LuuQu.medicalclinicproxy.model.SpecializationRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -28,8 +28,8 @@ public class AppointmentService {
                 .toList();
     }
 
-    public List<AppointmentDateDto> getDoctorAvailableHours(SpecializationRequestDto data) {
-        return appointmentClient.getAvailableAppointments(data).stream()
+    public List<AppointmentDateDto> getDoctorAvailableHours(LocalDate date, String specialization, Long doctorId) {
+        return appointmentClient.getAvailableAppointments(date, specialization, doctorId).stream()
                 .map(appointmentMapper::toDateDto)
                 .toList();
     }

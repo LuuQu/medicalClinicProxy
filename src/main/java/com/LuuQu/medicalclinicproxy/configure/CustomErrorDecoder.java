@@ -2,6 +2,7 @@ package com.LuuQu.medicalclinicproxy.configure;
 
 import com.LuuQu.medicalclinicproxy.exception.BadRequestException;
 import com.LuuQu.medicalclinicproxy.exception.NotFoundException;
+import com.LuuQu.medicalclinicproxy.exception.ServerErrorException;
 import feign.FeignException;
 import feign.Response;
 import feign.RetryableException;
@@ -16,7 +17,8 @@ public class CustomErrorDecoder implements ErrorDecoder {
         return switch (response.status()) {
             case 400 -> new BadRequestException();
             case 404 -> new NotFoundException();
-            case 500, 503 -> new RetryableException(
+            case 500 -> new ServerErrorException();
+            case 503 -> new RetryableException(
                     response.status(),
                     exception.getMessage(),
                     response.request().httpMethod(),

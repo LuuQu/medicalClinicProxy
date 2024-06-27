@@ -3,9 +3,7 @@ package com.LuuQu.medicalclinicproxy.testHelper;
 import com.LuuQu.medicalclinicproxy.model.AppointmentDateDto;
 import com.LuuQu.medicalclinicproxy.model.AppointmentDto;
 import com.LuuQu.medicalclinicproxy.model.AppointmentSimpleDto;
-import com.LuuQu.medicalclinicproxy.model.SpecializationRequestDto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,21 +77,6 @@ public class TestData {
             appointmentDto.setStartDate(LocalDateTime.now().plusDays(1).withMinute(0).withSecond(0).withNano(0));
             appointmentDto.setEndDate(LocalDateTime.now().plusDays(1).plusHours(1).withMinute(0).withSecond(0).withNano(0));
             return appointmentDto;
-        }
-    }
-
-    public static class SpecializationRequestDtoFactory {
-        public static SpecializationRequestDto get(Long id) {
-            SpecializationRequestDto specializationRequestDto = get();
-            specializationRequestDto.setDoctorId(id);
-            return specializationRequestDto;
-        }
-
-        public static SpecializationRequestDto get() {
-            SpecializationRequestDto specializationRequestDto = new SpecializationRequestDto();
-            specializationRequestDto.setSpecialization("specialization");
-            specializationRequestDto.setDate(LocalDate.now());
-            return specializationRequestDto;
         }
     }
 }

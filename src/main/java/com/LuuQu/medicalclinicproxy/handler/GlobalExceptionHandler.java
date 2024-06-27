@@ -3,6 +3,7 @@ package com.LuuQu.medicalclinicproxy.handler;
 import com.LuuQu.medicalclinicproxy.exception.BadRequestException;
 import com.LuuQu.medicalclinicproxy.exception.MedicalClinicProxyExcepotion;
 import com.LuuQu.medicalclinicproxy.exception.NotFoundException;
+import com.LuuQu.medicalclinicproxy.exception.ServerErrorException;
 import com.LuuQu.medicalclinicproxy.model.ErrorMessageDto;
 import feign.RetryableException;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,12 @@ public class GlobalExceptionHandler {
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ErrorMessageDto> notFoundExceptionErrorResponse(NotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDto(exception.getMessage()));
+    }
+    @ExceptionHandler(ServerErrorException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ErrorMessageDto> serverErrorExceptionErrorResponse(ServerErrorException exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorMessageDto(exception.getMessage()));
     }
 
     @ExceptionHandler(RetryableException.class)

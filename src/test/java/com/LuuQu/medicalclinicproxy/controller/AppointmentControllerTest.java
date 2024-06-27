@@ -2,7 +2,6 @@ package com.LuuQu.medicalclinicproxy.controller;
 
 import com.LuuQu.medicalclinicproxy.model.AppointmentDateDto;
 import com.LuuQu.medicalclinicproxy.model.AppointmentSimpleDto;
-import com.LuuQu.medicalclinicproxy.model.SpecializationRequestDto;
 import com.LuuQu.medicalclinicproxy.service.AppointmentService;
 import com.LuuQu.medicalclinicproxy.testHelper.TestControllerHelper;
 import com.LuuQu.medicalclinicproxy.testHelper.TestData;
@@ -13,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -75,16 +74,17 @@ public class AppointmentControllerTest {
     @Test
     void getDoctorAvailableHours_DataCorrect_DateDtoListReturned() throws Exception {
         Long doctorId = 1L;
-        SpecializationRequestDto specializationRequestDto = TestData.SpecializationRequestDtoFactory.get(doctorId);
+        String specialization = "specialization";
+        LocalDate date = LocalDate.now();
         List<AppointmentDateDto> appointmentDateDtoList = TestData.AppointmentDateDtoFactory.getList(2);
-        when(appointmentService.getDoctorAvailableHours(specializationRequestDto)).thenReturn(appointmentDateDtoList);
-        String contentInput = TestControllerHelper.getObjectAsString(specializationRequestDto, objectMapper);
+        when(appointmentService.getDoctorAvailableHours(date, specialization, doctorId)).thenReturn(appointmentDateDtoList);
         String expectedResult = TestControllerHelper.getObjectAsString(appointmentDateDtoList, objectMapper);
 
         MvcResult result = this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/appointments/specialization/day")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(contentInput))
+                .perform(MockMvcRequestBuilders.get("/appointments/doctor")
+                        .param("date",date.toString())
+                        .param("specialization",specialization)
+                        .param("doctorId",doctorId.toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();

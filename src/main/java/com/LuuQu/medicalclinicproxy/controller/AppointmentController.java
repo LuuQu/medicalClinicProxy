@@ -2,12 +2,12 @@ package com.LuuQu.medicalclinicproxy.controller;
 
 import com.LuuQu.medicalclinicproxy.model.AppointmentDateDto;
 import com.LuuQu.medicalclinicproxy.model.AppointmentSimpleDto;
-import com.LuuQu.medicalclinicproxy.model.SpecializationRequestDto;
 import com.LuuQu.medicalclinicproxy.service.AppointmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,10 +29,12 @@ public class AppointmentController {
     }
 
     @Operation(summary = "Get all doctor appointments by specialization and day." +
-            " Information about specialization, day and doctorId are stored in RequestBody")
-    @GetMapping("/specialization/day") /// <- ogarnąć tutaj to coś
-    public List<AppointmentDateDto> getDoctorAvailableHours(@RequestBody SpecializationRequestDto data) {
-        return appointmentService.getDoctorAvailableHours(data);
+            " Information about specialization, day and doctorId are stored in RequestParams")
+    @GetMapping("/doctor") /// <- ogarnąć tutaj to coś
+    public List<AppointmentDateDto> getDoctorAvailableHours(@RequestParam LocalDate date,
+                                                            @RequestParam String specialization,
+                                                            @RequestParam Long doctorId) {
+        return appointmentService.getDoctorAvailableHours(date, specialization, doctorId);
     }
 
     @Operation(summary = "Connect appointment with patient by patient id and appointment id.")

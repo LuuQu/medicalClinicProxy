@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -73,16 +74,18 @@ public class AppointmentServiceTest {
 
     @Test
     void getDoctorAvailableHours_DataCorrect_DateDtoListReturned() {
-        SpecializationRequestDto specializationRequestDto = new SpecializationRequestDto();
         int listAmount = 2;
+        Long doctorId = 1L;
+        String specialization = "specialization";
+        LocalDate date = LocalDate.now();
         List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount);
         List<AppointmentDateDto> appointmentSimpleDtoList = TestData.AppointmentDateDtoFactory.getList(listAmount);
-        when(appointmentClient.getAvailableAppointments(specializationRequestDto)).thenReturn(appointmentDtoList);
+        when(appointmentClient.getAvailableAppointments(date, specialization, doctorId)).thenReturn(appointmentDtoList);
         for (int i = 0; i < appointmentDtoList.size(); i++) {
             when(appointmentMapper.toDateDto(appointmentDtoList.get(i))).thenReturn(appointmentSimpleDtoList.get(i));
         }
 
-        List<AppointmentDateDto> result = appointmentService.getDoctorAvailableHours(specializationRequestDto);
+        List<AppointmentDateDto> result = appointmentService.getDoctorAvailableHours(date, specialization, doctorId);
 
         Assertions.assertEquals(appointmentSimpleDtoList, result);
     }
