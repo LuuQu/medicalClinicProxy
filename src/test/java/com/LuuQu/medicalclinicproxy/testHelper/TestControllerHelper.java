@@ -4,7 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-public class TestControllerHelper {
+public final class TestControllerHelper {
+    private TestControllerHelper() {
+    }
+
     public static String getObjectAsString(Object object, ObjectMapper om) {
         ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
         String expectedResult;

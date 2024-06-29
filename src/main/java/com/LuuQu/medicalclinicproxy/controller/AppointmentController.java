@@ -30,11 +30,11 @@ public class AppointmentController {
 
     @Operation(summary = "Get all doctor appointments by specialization and day." +
             " Information about specialization, day and doctorId are stored in RequestParams")
-    @GetMapping("/doctor") /// <- ogarnąć tutaj to coś
-    public List<AppointmentDateDto> getDoctorAvailableHours(@RequestParam LocalDate date,
+    @GetMapping("/doctor")
+    public List<AppointmentDateDto> getDoctorAvailableAppointments(@RequestParam LocalDate date,
                                                             @RequestParam String specialization,
                                                             @RequestParam Long doctorId) {
-        return appointmentService.getDoctorAvailableHours(date, specialization, doctorId);
+        return appointmentService.getDoctorAvailableAppointments(date, specialization, doctorId);
     }
 
     @Operation(summary = "Connect appointment with patient by patient id and appointment id.")

@@ -77,14 +77,14 @@ public class AppointmentControllerTest {
         String specialization = "specialization";
         LocalDate date = LocalDate.now();
         List<AppointmentDateDto> appointmentDateDtoList = TestData.AppointmentDateDtoFactory.getList(2);
-        when(appointmentService.getDoctorAvailableHours(date, specialization, doctorId)).thenReturn(appointmentDateDtoList);
+        when(appointmentService.getDoctorAvailableAppointments(date, specialization, doctorId)).thenReturn(appointmentDateDtoList);
         String expectedResult = TestControllerHelper.getObjectAsString(appointmentDateDtoList, objectMapper);
 
         MvcResult result = this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/appointments/doctor")
-                        .param("date",date.toString())
-                        .param("specialization",specialization)
-                        .param("doctorId",doctorId.toString()))
+                        .param("date", date.toString())
+                        .param("specialization", specialization)
+                        .param("doctorId", doctorId.toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@FeignClient(name = "appointmentClient", url = "http://medicalclinic:8080/appointments",
+@FeignClient(name = "appointmentClient",
         configuration = FeignConfig.class, fallbackFactory = AppointmentFallbackFactory.class)
 public interface AppointmentClient {
     @GetMapping("/patient/{patientId}")

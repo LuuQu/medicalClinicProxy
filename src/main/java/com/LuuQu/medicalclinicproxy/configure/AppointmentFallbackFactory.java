@@ -1,8 +1,9 @@
 package com.LuuQu.medicalclinicproxy.configure;
 
 import com.LuuQu.medicalclinicproxy.client.AppointmentClient;
+import com.LuuQu.medicalclinicproxy.exception.BadRequestException;
+import com.LuuQu.medicalclinicproxy.exception.NotFoundException;
 import com.LuuQu.medicalclinicproxy.model.AppointmentDto;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Slf4j
 public class AppointmentFallbackFactory implements FallbackFactory<AppointmentClient> {
     public AppointmentClient create(Throwable cause) {
         return new AppointmentClient() {
@@ -27,7 +27,13 @@ public class AppointmentFallbackFactory implements FallbackFactory<AppointmentCl
 
             @Override
             public AppointmentDto addPatientToAppointment(Long patientId, Long appointmentId) {
-                return new AppointmentDto();
+                if(cause instanceof NotFoundException) {
+                    throw (NotFoundException) cause;
+                }
+                if(cause instanceof BadRequestException) {
+                    throw (BadRequestException) cause;
+                }
+                return null;
             }
 
             @Override

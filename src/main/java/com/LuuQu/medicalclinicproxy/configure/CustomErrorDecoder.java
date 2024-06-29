@@ -14,10 +14,11 @@ public class CustomErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
         FeignException exception = feign.FeignException.errorStatus(methodKey, response);
+        String responseMessage = extractMessage(exception.getMessage());
         return switch (response.status()) {
-            case 400 -> new BadRequestException();
-            case 404 -> new NotFoundException();
-            case 500 -> new ServerErrorException();
+            case 400 -> new BadRequestException(responseMessage);
+            case 404 -> new NotFoundException(responseMessage);
+            case 500 -> new ServerErrorException(responseMessage);
             case 503 -> new RetryableException(
                     response.status(),
                     exception.getMessage(),
@@ -27,5 +28,17 @@ public class CustomErrorDecoder implements ErrorDecoder {
                     response.request());
             default -> defaultErrorDecoder.decode(methodKey, response);
         };
+    }
+    public String extractMessage(String inputString) {
+        String searchString = "\"message\":\"";
+        int startIndex = inputString.indexOf(searchString);
+        if (startIndex != -1) {
+            startIndex += searchString.length();
+            int endIndex = inputString.indexOf("\"", startIndex);
+            if (endIndex != -1) {
+                return inputString.substring(startIndex, endIndex);
+            }
+        }
+        return "Message not found";
     }
 }

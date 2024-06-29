@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestData {
+public final class TestData {
+    private TestData() {
+    }
+
     public static class AppointmentDtoFactory {
         public static List<AppointmentDto> getList(int amount) {
             List<AppointmentDto> list = new ArrayList<>();

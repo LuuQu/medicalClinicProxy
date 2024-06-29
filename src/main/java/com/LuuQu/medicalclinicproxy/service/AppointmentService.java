@@ -28,7 +28,7 @@ public class AppointmentService {
                 .toList();
     }
 
-    public List<AppointmentDateDto> getDoctorAvailableHours(LocalDate date, String specialization, Long doctorId) {
+    public List<AppointmentDateDto> getDoctorAvailableAppointments(LocalDate date, String specialization, Long doctorId) {
         return appointmentClient.getAvailableAppointments(date, specialization, doctorId).stream()
                 .map(appointmentMapper::toDateDto)
                 .toList();

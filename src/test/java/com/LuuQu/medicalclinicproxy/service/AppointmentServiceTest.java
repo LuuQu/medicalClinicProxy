@@ -85,7 +85,7 @@ public class AppointmentServiceTest {
             when(appointmentMapper.toDateDto(appointmentDtoList.get(i))).thenReturn(appointmentSimpleDtoList.get(i));
         }
 
-        List<AppointmentDateDto> result = appointmentService.getDoctorAvailableHours(date, specialization, doctorId);
+        List<AppointmentDateDto> result = appointmentService.getDoctorAvailableAppointments(date, specialization, doctorId);
 
         Assertions.assertEquals(appointmentSimpleDtoList, result);
     }
