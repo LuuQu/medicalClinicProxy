@@ -1,6 +1,6 @@
 package com.LuuQu.medicalclinicproxy.exception;
 
-public class NotFoundException extends MedicalClinicProxyExcepotion {
+public class NotFoundException extends MedicalClinicProxyException {
     public NotFoundException(String message) {
         super(message);
     }

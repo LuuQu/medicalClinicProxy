@@ -30,11 +30,7 @@ public class AppointmentServiceTest {
     void getPatientAppointments_DataCorrect_SimpleDtoListReturned() {
         Long patientId = 1L;
         int listAmount = 2;
-        List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount);
-        for (AppointmentDto appointmentDto : appointmentDtoList) {
-            appointmentDto.setPatient(new PatientDto());
-            appointmentDto.getPatient().setId(patientId);
-        }
+        List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount, patientId, null);
         List<AppointmentSimpleDto> appointmentSimpleDtoList = TestData.AppointmentSimpleDtoFactory.getList(listAmount);
         for (AppointmentSimpleDto appointmentDto : appointmentSimpleDtoList) {
             appointmentDto.setPatientId(patientId);
@@ -53,11 +49,7 @@ public class AppointmentServiceTest {
     void getDoctorAppointments_DataCorrect_SimpleDtoListReturned() {
         Long doctorId = 1L;
         int listAmount = 2;
-        List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount);
-        for (AppointmentDto appointmentDto : appointmentDtoList) {
-            appointmentDto.setDoctor(new DoctorDto());
-            appointmentDto.getDoctor().setId(doctorId);
-        }
+        List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount, null, doctorId);
         List<AppointmentSimpleDto> appointmentSimpleDtoList = TestData.AppointmentSimpleDtoFactory.getList(listAmount);
         for (AppointmentSimpleDto appointmentDto : appointmentSimpleDtoList) {
             appointmentDto.setDoctorId(doctorId);
@@ -78,7 +70,7 @@ public class AppointmentServiceTest {
         Long doctorId = 1L;
         String specialization = "specialization";
         LocalDate date = LocalDate.now();
-        List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount);
+        List<AppointmentDto> appointmentDtoList = TestData.AppointmentDtoFactory.getList(listAmount, null, doctorId);
         List<AppointmentDateDto> appointmentSimpleDtoList = TestData.AppointmentDateDtoFactory.getList(listAmount);
         when(appointmentClient.getAvailableAppointments(date, specialization, doctorId)).thenReturn(appointmentDtoList);
         for (int i = 0; i < appointmentDtoList.size(); i++) {
@@ -94,9 +86,7 @@ public class AppointmentServiceTest {
     void addPatientToAppointment_DataCorrect_SimpleDtoReturned() {
         Long patientId = 1L;
         Long appointmentId = 1L;
-        AppointmentDto appointmentDto = TestData.AppointmentDtoFactory.get(appointmentId);
-        appointmentDto.setPatient(new PatientDto());
-        appointmentDto.getPatient().setId(patientId);
+        AppointmentDto appointmentDto = TestData.AppointmentDtoFactory.get(appointmentId, patientId, null);
         when(appointmentClient.addPatientToAppointment(patientId, appointmentId)).thenReturn(appointmentDto);
         AppointmentSimpleDto expectedResult = TestData.AppointmentSimpleDtoFactory.get(appointmentId);
         expectedResult.setPatientId(patientId);

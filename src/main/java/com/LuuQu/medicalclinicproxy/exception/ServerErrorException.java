@@ -1,6 +1,6 @@
 package com.LuuQu.medicalclinicproxy.exception;
 
-public class ServerErrorException extends MedicalClinicProxyExcepotion {
+public class ServerErrorException extends MedicalClinicProxyException {
     public ServerErrorException(String message) {
         super(message);
     }

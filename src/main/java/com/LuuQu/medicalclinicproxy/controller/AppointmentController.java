@@ -32,8 +32,8 @@ public class AppointmentController {
             " Information about specialization, day and doctorId are stored in RequestParams")
     @GetMapping("/doctor")
     public List<AppointmentDateDto> getDoctorAvailableAppointments(@RequestParam LocalDate date,
-                                                            @RequestParam String specialization,
-                                                            @RequestParam Long doctorId) {
+                                                                   @RequestParam String specialization,
+                                                                   @RequestParam Long doctorId) {
         return appointmentService.getDoctorAvailableAppointments(date, specialization, doctorId);
     }
 

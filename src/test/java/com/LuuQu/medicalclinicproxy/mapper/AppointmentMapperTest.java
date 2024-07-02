@@ -34,9 +34,7 @@ public class AppointmentMapperTest {
     private static Stream<Arguments> toDateDtoTest() {
         return Stream.of(
                 Arguments.of(null, null),
-                Arguments.of(new AppointmentDto(), new AppointmentDateDto()),
-                Arguments.of(TestData.AppointmentDtoFactory.get(), TestData.AppointmentDateDtoFactory.get()),
-                Arguments.of(TestData.AppointmentDtoFactory.get(1L), TestData.AppointmentDateDtoFactory.get(1L))
+                Arguments.of(TestData.AppointmentDtoFactory.get(1L, 1L, 1L), TestData.AppointmentDateDtoFactory.get(1L))
         );
     }
 
@@ -56,11 +54,7 @@ public class AppointmentMapperTest {
     }
 
     private static Stream<Arguments> toSimpleDtoTest() {
-        AppointmentDto fullAppointmentDto = TestData.AppointmentDtoFactory.get(1L);
-        fullAppointmentDto.setPatient(new PatientDto());
-        fullAppointmentDto.getPatient().setId(1L);
-        fullAppointmentDto.setDoctor(new DoctorDto());
-        fullAppointmentDto.getDoctor().setId(1L);
+        AppointmentDto fullAppointmentDto = TestData.AppointmentDtoFactory.get(1L, 1L, 1L);
 
         AppointmentSimpleDto fullAppointmentSimpleDto = TestData.AppointmentSimpleDtoFactory.get(1L);
         fullAppointmentSimpleDto.setPatientId(1L);
@@ -68,9 +62,6 @@ public class AppointmentMapperTest {
 
         return Stream.of(
                 Arguments.of(null, null),
-                Arguments.of(new AppointmentDto(), new AppointmentSimpleDto()),
-                Arguments.of(TestData.AppointmentDtoFactory.get(), TestData.AppointmentSimpleDtoFactory.get()),
-                Arguments.of(TestData.AppointmentDtoFactory.get(1L), TestData.AppointmentSimpleDtoFactory.get(1L)),
                 Arguments.of(fullAppointmentDto, fullAppointmentSimpleDto)
         );
     }

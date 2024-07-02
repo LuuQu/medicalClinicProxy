@@ -1,7 +1,7 @@
 package com.LuuQu.medicalclinicproxy.handler;
 
 import com.LuuQu.medicalclinicproxy.exception.BadRequestException;
-import com.LuuQu.medicalclinicproxy.exception.MedicalClinicProxyExcepotion;
+import com.LuuQu.medicalclinicproxy.exception.MedicalClinicProxyException;
 import com.LuuQu.medicalclinicproxy.exception.NotFoundException;
 import com.LuuQu.medicalclinicproxy.exception.ServerErrorException;
 import com.LuuQu.medicalclinicproxy.model.ErrorMessageDto;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(MedicalClinicProxyExcepotion.class)
+    @ExceptionHandler(MedicalClinicProxyException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ErrorMessageDto> medicalClinicExceptionErrorResponse(MedicalClinicProxyExcepotion exception) {
+    public ResponseEntity<ErrorMessageDto> medicalClinicExceptionErrorResponse(MedicalClinicProxyException exception) {
         return ResponseEntity.badRequest().body(new ErrorMessageDto(exception.getMessage()));
     }
 
@@ -36,6 +36,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorMessageDto> notFoundExceptionErrorResponse(NotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorMessageDto(exception.getMessage()));
     }
+
     @ExceptionHandler(ServerErrorException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)

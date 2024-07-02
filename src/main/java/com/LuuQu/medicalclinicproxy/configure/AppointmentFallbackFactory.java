@@ -27,10 +27,10 @@ public class AppointmentFallbackFactory implements FallbackFactory<AppointmentCl
 
             @Override
             public AppointmentDto addPatientToAppointment(Long patientId, Long appointmentId) {
-                if(cause instanceof NotFoundException) {
+                if (cause instanceof NotFoundException) {
                     throw (NotFoundException) cause;
                 }
-                if(cause instanceof BadRequestException) {
+                if (cause instanceof BadRequestException) {
                     throw (BadRequestException) cause;
                 }
                 return null;

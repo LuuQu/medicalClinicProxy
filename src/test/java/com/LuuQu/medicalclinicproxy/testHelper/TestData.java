@@ -1,8 +1,6 @@
 package com.LuuQu.medicalclinicproxy.testHelper;
 
-import com.LuuQu.medicalclinicproxy.model.AppointmentDateDto;
-import com.LuuQu.medicalclinicproxy.model.AppointmentDto;
-import com.LuuQu.medicalclinicproxy.model.AppointmentSimpleDto;
+import com.LuuQu.medicalclinicproxy.model.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,25 +11,26 @@ public final class TestData {
     }
 
     public static class AppointmentDtoFactory {
-        public static List<AppointmentDto> getList(int amount) {
+        public static List<AppointmentDto> getList(int amount, Long patientId, Long doctorId) {
             List<AppointmentDto> list = new ArrayList<>();
             for (int i = 0; i < amount; i++) {
-                list.add(get((long) i));
+                list.add(get((long) i, patientId, doctorId));
             }
             return list;
         }
 
-        public static AppointmentDto get(Long id) {
-            AppointmentDto appointmentDto = get();
-            appointmentDto.setId(id);
-            return appointmentDto;
-        }
-
-        public static AppointmentDto get() {
-            AppointmentDto appointmentDto = new AppointmentDto();
-            appointmentDto.setStartDate(LocalDateTime.now().plusDays(1).withMinute(0).withSecond(0).withNano(0));
-            appointmentDto.setEndDate(LocalDateTime.now().plusDays(1).plusHours(1).withMinute(0).withSecond(0).withNano(0));
-            return appointmentDto;
+        public static AppointmentDto get(Long id, Long patientId, Long doctorId) {
+            PatientDto patientDto = new PatientDto();
+            patientDto.setId(patientId);
+            DoctorDto doctorDto = new DoctorDto();
+            doctorDto.setId(doctorId);
+            return AppointmentDto.builder()
+                    .id(id)
+                    .startDate(LocalDateTime.now().plusDays(1).withMinute(0).withSecond(0).withNano(0))
+                    .endDate(LocalDateTime.now().plusDays(1).plusHours(1).withMinute(0).withSecond(0).withNano(0))
+                    .patient(patientDto)
+                    .doctor(doctorDto)
+                    .build();
         }
     }
 
